@@ -42,6 +42,15 @@ namespace DoubleExtensions
             return stringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Transforms values from given array to
+        /// array of strings.
+        /// </summary>
+        /// <param name="array">Given array with double values.</param>
+        /// <returns>New string array where each element is a 
+        /// string representation of number.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when array is null.</exception>
+        /// <exception cref="ArgumentException"> Thrown when array is empty.</exception>
         public static string[] TransformToWords(this double[] array)
         {
             ValidateArray(array);
@@ -50,6 +59,7 @@ namespace DoubleExtensions
             {
                 stringRepresentations[i] = array[i].TransformToWords();
             }
+
             return stringRepresentations;
         }
 
@@ -59,6 +69,7 @@ namespace DoubleExtensions
             {
                 throw new ArgumentNullException($"{nameof(array)} can't be null.");
             }
+
             if (array.Length == 0)
             {
                 throw new ArgumentException($"{nameof(array)} can't be empty.");

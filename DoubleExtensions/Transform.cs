@@ -4,26 +4,34 @@ using System.Text;
 
 namespace DoubleExtensions
 {
+    /// <summary>
+    /// Contains methods to transform double numbers to string.
+    /// </summary>
     public static class Transform
     {
-        
-        private static readonly List<string> specialValues = new List<string>
+        /// <summary>
+        /// Special string values for representing special double type's values.
+        /// </summary>
+        private static readonly List<string> SpecialValues = new List<string>
         {
             "NaN",
             "-Infinity",
             "Infinity"
         };
 
-        private static readonly Dictionary<char, string> representations = new Dictionary<char, string>()
+        /// <summary>
+        /// Dictionary that contains string representations for digits and signs.
+        /// </summary>
+        private static readonly Dictionary<char, string> Representations = new Dictionary<char, string>()
         {
             { '0', "zero" },
             { '1', "one" },
-            { '2', "two"},
+            { '2', "two" },
             { '3', "three" },
             { '4', "four" },
             { '5', "five" },
             { '6', "six" },
-            { '7', "seven"},
+            { '7', "seven" },
             { '8', "eight" },
             { '9', "nine" },
             { '.', "point" },
@@ -32,6 +40,11 @@ namespace DoubleExtensions
             { '+', "plus" },
         };
 
+        /// <summary>
+        /// Method transforms double number to words (one word per digit).
+        /// </summary>
+        /// <param name="number">Double number.</param>
+        /// <returns>String that represents given number.</returns>
         public static string TransformToWords(this double number)
         {
             string numberValue = Convert.ToString(number, System.Globalization.CultureInfo.InvariantCulture);
@@ -43,16 +56,16 @@ namespace DoubleExtensions
             var stringBuilder = new StringBuilder();
             for (int i = 0; i < numberValue.Length - 1; i++)
             {
-                stringBuilder.Append($"{representations[numberValue[i]]} ");
+                stringBuilder.Append($"{Representations[numberValue[i]]} ");
             }
 
-            stringBuilder.Append(representations[numberValue[numberValue.Length - 1]]);
+            stringBuilder.Append(Representations[numberValue[numberValue.Length - 1]]);
             return stringBuilder.ToString();
         }
 
         private static bool IsSpecialDoubleValue(string numberRepresentation)
         {
-            foreach (var value in specialValues)
+            foreach (var value in SpecialValues)
             {
                 if (value == numberRepresentation)
                 {
