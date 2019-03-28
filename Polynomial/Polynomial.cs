@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Polynomial
 {
@@ -10,7 +7,7 @@ namespace Polynomial
     {
         private const double accuracy = 0.0001;
 
-        public double Degree
+        public int Degree
         {
             get
             {
@@ -22,6 +19,7 @@ namespace Polynomial
 
         public Polynomial(double[] coefficients)
         {
+            ValidateCoefficientArray(coefficients);
             this.Coefficients = coefficients;
         }
 
@@ -72,7 +70,7 @@ namespace Polynomial
             return polynomial == this;
         }
 
-        private static void ValidatecoefficientArray(double[] coefficients)
+        private static void ValidateCoefficientArray(double[] coefficients)
         {
             if (coefficients == null)
             {
@@ -90,7 +88,7 @@ namespace Polynomial
             {
                 return false;
             }
-            return IsEqualPolynomials(firstPolynomial.Coefficients, secondPolynomial.Coefficients);
+            return IsEqualPolynomials(firstPolynomial, secondPolynomial);
         }
 
         public static bool operator != (Polynomial firstPolynomial, Polynomial secondPolynomial)
@@ -98,17 +96,89 @@ namespace Polynomial
             return !(firstPolynomial == secondPolynomial);
         }
 
-        private static bool IsEqualPolynomials(double[] firstPolynomialCoefficients,
-            double[] secondPolynomialCoefficients)
+        private static bool IsEqualPolynomials(Polynomial first,
+            Polynomial second)
         {
-            for (int i = 0; i < firstPolynomialCoefficients.Length; i++)
+            if (first == null && second == null)
             {
-                if (!(Math.Abs(firstPolynomialCoefficients[i] - secondPolynomialCoefficients[i]) < accuracy)) 
+                return true;
+            }
+            if (first == null ||  second == null)
+            {
+                return false;
+            }
+            if (ReferenceEquals(first, second))
+            {
+                return true;
+            }
+            for (int i = 0; i < second.Coefficients.Length; i++)
+            {
+                if (!(Math.Abs(first.Coefficients[i] - second.Coefficients[i]) < accuracy)) 
                 {
                     return false;
                 }
             }
             return true;
         }
+
+        public static Polynomial operator +(Polynomial firstPolynomial, Polynomial secondPolynomial)
+        {
+            ValidatePolynomial(firstPolynomial);
+            ValidatePolynomial(secondPolynomial);
+            double[] coefficients = new double[Math.Max(firstPolynomial.Degree, secondPolynomial.Degree)];
+            for (int i = 0; i < firstPolynomial.Degree; i++)
+            {
+                coefficients[i] += firstPolynomial.Coefficients[i];
+            }
+            for (int i = 0; i < secondPolynomial.Degree; i++)
+            {
+                coefficients[i] += secondPolynomial.Coefficients[i];
+            }
+            return new Polynomial(coefficients);
+        }
+
+        public static Polynomial operator -(Polynomial firstPolynomial, Polynomial secondPolynomial)
+        {
+            ValidatePolynomial(firstPolynomial);
+            ValidatePolynomial(secondPolynomial);
+            double[] coefficients = new double[Math.Max(firstPolynomial.Degree, secondPolynomial.Degree)];
+            for (int i = 0; i < secondPolynomial.Degree; i++)
+            {
+                coefficients[i] -= secondPolynomial.Coefficients[i];
+            }
+            for (int i = 0; i < firstPolynomial.Degree; i++)
+            {
+                coefficients[i] += firstPolynomial.Coefficients[i];
+            }
+            return new Polynomial(coefficients);
+        }
+
+        public static Polynomial operator *(Polynomial firstPolynomial, Polynomial secondPolynomial)
+        {
+            ValidatePolynomial(firstPolynomial);
+            ValidatePolynomial(secondPolynomial);
+
+            int resultOrder = firstPolynomial.Degree + secondPolynomial.Degree - 1;
+            double[] resultForces = new double[resultOrder];
+
+            for (int i = 0; i < firstPolynomial.Degree; i++)
+            {
+                for (int j = 0; j < secondPolynomial.Degree; j++)
+                {
+                    resultForces[i + j] += firstPolynomial.Coefficients[i] * secondPolynomial.Coefficients[j];
+                }
+            }
+
+            return new Polynomial(resultForces);
+        }
+
+        private static void ValidatePolynomial(Polynomial polynomial)
+        {
+            if (ReferenceEquals(polynomial, null))
+            {
+                throw new ArgumentNullException($"{nameof(polynomial)} cannot be null!");
+            }
+        }
+
     }
 }
