@@ -25,10 +25,10 @@ namespace DoubleExtensions.Tests
 
         [TestCase(new double[] { 2e-15 }, ExpectedResult = new string[] { "two exponenta minus one five" })]
         [TestCase(new double[] { 222.21, 21, 0.12 },
-            ExpectedResult = new string[] { "two two two point two one", "two one", "zero point one two"} )]
+            ExpectedResult = new string[] { "two two two point two one", "two one", "zero point one two" })]
         [TestCase(new double[] { double.NaN, 0, double.NegativeInfinity, double.PositiveInfinity }, ExpectedResult = new string[] { "NaN", "zero", "-Infinity", "Infinity" })]
         [TestCase(new double[] { 0.234, 1.54, 0.001 }, 
-            ExpectedResult = new string[] { "zero point two three four", "one point five four", "zero point zero zero one"})]
+            ExpectedResult = new string[] { "zero point two three four", "one point five four", "zero point zero zero one" })]
         public string[] TransformToWords_ArrayOfDoublesPassed_ReturnArrayOfStrings(double[] array) =>
             array.TransformToWords();
 
