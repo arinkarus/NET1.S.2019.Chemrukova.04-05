@@ -18,8 +18,6 @@ namespace Polynomial
 
         #endregion
 
-        #region Properties
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Polynomial"/> class.
         /// </summary>
@@ -27,8 +25,11 @@ namespace Polynomial
         public Polynomial(double[] coefficients)
         {
             ValidateCoefficientArray(coefficients);
-            this.coefficients = coefficients;
+            this.coefficients = new double[coefficients.Length];
+            coefficients.CopyTo(this.coefficients, 0);
         }
+
+        #region Properties
 
         /// <summary>
         /// Gets the biggest power of polynomial.
@@ -294,7 +295,14 @@ namespace Polynomial
 
             if (this.coefficients[0] != 0)
             {
-                stringBuilder.Append(this.coefficients[0]).Append("*x^").Append(this.Degree);
+                if (this.coefficients.Length == 2)
+                {
+                    stringBuilder.Append(this.coefficients[0]).Append("*x");
+                }
+                else
+                {
+                    stringBuilder.Append(this.coefficients[0]).Append("*x^").Append(this.Degree);
+                }
             }
 
             for (int i = 1; i < this.coefficients.Length; i++)
