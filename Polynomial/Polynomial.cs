@@ -14,7 +14,7 @@ namespace Polynomial
         /// <summary>
         /// Array of coefficients. 
         /// </summary>
-        private double[] coefficients;
+        private readonly double[] coefficients;
 
         #endregion
 
