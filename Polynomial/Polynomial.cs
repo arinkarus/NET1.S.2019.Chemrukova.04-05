@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Text;
-
 namespace Polynomial
 {
     /// <summary>
     /// Class that contains methods for work with polynomials.
     /// </summary>
-    public class Polynomial
+    public class Polynomial : ICloneable, IEquatable<Polynomial>
     {
         #region Constants and fields
         private const double Accuracy = 0.0001;
@@ -25,8 +24,24 @@ namespace Polynomial
         public Polynomial(double[] coefficients)
         {
             ValidateCoefficientArray(coefficients);
-            this.coefficients = new double[coefficients.Length];
-            coefficients.CopyTo(this.coefficients, 0);
+            //this.coefficients = new double[coefficients.Length];
+            //coefficients.CopyTo(this.coefficients, 0);
+            this.coefficients = SetCoefficients(coefficients);
+        }
+
+        /// <summary>
+        /// Compares two polynomials.
+        /// </summary>
+        /// <param name="other">Polynomial to compare with.</param>
+        /// <returns></returns>
+        public bool Equals(Polynomial other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return IsEqualPolynomials(this, other);
         }
 
         #region Properties
@@ -64,17 +79,6 @@ namespace Polynomial
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Tells if two polynomials are equal. 
-        /// </summary>
-        /// <param name="leftHandSidePolynomial">First polynomial.</param>
-        /// <param name="rightHandSidePolynomial">Second polynomial.</param>
-        /// <returns>True - if polynomials are equal, otherwise - false.</returns>
-        public static bool Equals(Polynomial leftHandSidePolynomial, Polynomial rightHandSidePolynomial)
-        {
-            return IsEqualPolynomials(leftHandSidePolynomial, rightHandSidePolynomial);
-        }
 
         /// <summary>
         /// Tells if two polynomials are equal. 
@@ -266,6 +270,17 @@ namespace Polynomial
         }
 
         /// <summary>
+        /// Tells if two polynomials are equal. 
+        /// </summary>
+        /// <param name="leftHandSidePolynomial">First polynomial.</param>
+        /// <param name="rightHandSidePolynomial">Second polynomial.</param>
+        /// <returns>True - if polynomials are equal, otherwise - false.</returns>
+        public static bool Equals(Polynomial leftHandSidePolynomial, Polynomial rightHandSidePolynomial)
+        {
+            return IsEqualPolynomials(leftHandSidePolynomial, rightHandSidePolynomial);
+        }
+
+        /// <summary>
         /// Multiplies coefficients of polynomial and returns new polynomial.
         /// </summary>
         /// <param name="polynomial">Given polynomial.</param>
@@ -274,6 +289,20 @@ namespace Polynomial
         public static Polynomial Multiply(Polynomial polynomial, double value)
         {
             return GetPolynomialWithMultipliedCoefficients(polynomial, value);
+        }
+
+        #endregion
+
+        #region Interfaces implementations
+
+        /// <summary>
+        /// Returns copy of polynomial.
+        /// </summary>
+        /// <returns>Copy of polynomial.</returns>
+        public object Clone()
+        {
+            double[] coeffiecientsForClonePolynomial = (double[])this.coefficients;
+            return new Polynomial(coeffiecientsForClonePolynomial);
         }
 
         #endregion
@@ -287,42 +316,42 @@ namespace Polynomial
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            if (this.coefficients.Length == 1)
+            if (this.Degree == 0)
             {
-                stringBuilder.Append(this.coefficients[0]);
+                stringBuilder.Append(this[0]);
                 return stringBuilder.ToString();
             }
 
-            if (this.coefficients[0] != 0)
+            if (this[0] != 0)
             {
-                if (this.coefficients.Length == 2)
+                if (this.Degree == 1)
                 {
-                    stringBuilder.Append(this.coefficients[0]).Append("*x");
+                    stringBuilder.Append($"{this[0]}*x");
                 }
                 else
                 {
-                    stringBuilder.Append(this.coefficients[0]).Append("*x^").Append(this.Degree);
+                    stringBuilder.Append($"{this[0]}*x^{this.Degree}");
                 }
             }
 
-            for (int i = 1; i < this.coefficients.Length; i++)
+            for (int i = 1; i < this.Degree + 1; i++)
             {
-                if (this.coefficients[i] == 0)
+                if (this[i] == 0)
                 {
                     continue;
                 }
 
-                double absoluteValue = Math.Abs(this.coefficients[i]);
-                char sign = GetSign(this.coefficients[i]);
-                stringBuilder.Append(" ").Append(sign).Append(" ").Append(absoluteValue);
-                if (i != this.coefficients.Length - 1)
+                double absoluteValue = Math.Abs(this[i]);
+                char sign = GetSign(this[i]);
+                stringBuilder.Append($" {sign} {absoluteValue}");
+                if (i != this.Degree)
                 {
                     stringBuilder.Append("*x");
                 }
 
-                if (i != this.coefficients.Length - 1 && i != this.coefficients.Length - 2)
+                if (i != this.Degree && i != this.Degree - 1)
                 {
-                    stringBuilder.Append("^").Append(this.Degree - i);
+                    stringBuilder.Append($"^{this.Degree - i}");
                 }
             }
 
@@ -338,9 +367,9 @@ namespace Polynomial
             unchecked
             {
                 int hash = 17;
-                foreach (var value in this.coefficients)
+                for (int i = 0; i < this.Degree + 1; i++)
                 {
-                    hash = (hash * 23) + value.GetHashCode();
+                    hash = (hash * 23) + this[i].GetHashCode();
                 }
 
                 return hash;
@@ -370,14 +399,14 @@ namespace Polynomial
         {
             ValidatePolynomial(leftHandSidePolynomial);
             ValidatePolynomial(rightHandSidePolynomial);
-            double[] coefficients = new double[leftHandSidePolynomial.coefficients.Length
-                + rightHandSidePolynomial.coefficients.Length - 1];
-            for (int i = 0; i < leftHandSidePolynomial.coefficients.Length; i++)
+            double[] coefficients = new double[leftHandSidePolynomial.Degree + 1
+                + rightHandSidePolynomial.Degree];
+            for (int i = 0; i <= leftHandSidePolynomial.Degree; i++)
             {
-                for (int j = 0; j < rightHandSidePolynomial.coefficients.Length; j++)
+                for (int j = 0; j <= rightHandSidePolynomial.Degree; j++)
                 {
-                    coefficients[i + j] += leftHandSidePolynomial.coefficients[i] *
-                        rightHandSidePolynomial.coefficients[j];
+                    coefficients[i + j] += leftHandSidePolynomial[i] *
+                        rightHandSidePolynomial[j];
                 }
             }
 
@@ -388,7 +417,7 @@ namespace Polynomial
         {
             ValidatePolynomial(polynomial);
             double[] coefficients = (double[])polynomial.coefficients.Clone();
-            for (int i = 0; i < polynomial.coefficients.Length; i++)
+            for (int i = 0; i <= polynomial.Degree; i++)
             {
                 coefficients[i] += value;
             }
@@ -401,15 +430,15 @@ namespace Polynomial
             ValidatePolynomial(leftHandSidePolynomial);
             ValidatePolynomial(rightHandSidePolynomial);
             double[] coefficients = new double
-                [Math.Max(leftHandSidePolynomial.coefficients.Length, rightHandSidePolynomial.coefficients.Length)];
-            for (int i = 0; i < leftHandSidePolynomial.coefficients.Length; i++)
+                [Math.Max(leftHandSidePolynomial.Degree + 1, rightHandSidePolynomial.Degree + 1)];
+            for (int i = 0; i <= leftHandSidePolynomial.Degree; i++)
             {
-                coefficients[i] += leftHandSidePolynomial.coefficients[i];
+                coefficients[i] += leftHandSidePolynomial[i];
             }
 
-            for (int i = 0; i < rightHandSidePolynomial.coefficients.Length; i++)
+            for (int i = 0; i <= rightHandSidePolynomial.Degree; i++)
             {
-                coefficients[i] += rightHandSidePolynomial.coefficients[i];
+                coefficients[i] += rightHandSidePolynomial[i];
             }
 
             return new Polynomial(coefficients);
@@ -439,16 +468,17 @@ namespace Polynomial
         {
             ValidatePolynomial(leftHandSidePolynomial);
             ValidatePolynomial(rightHandSidePolynomial);
-            int length = Math.Max(leftHandSidePolynomial.coefficients.Length, rightHandSidePolynomial.coefficients.Length);
+            int length = Math.Max(leftHandSidePolynomial.Degree + 1, 
+                rightHandSidePolynomial.Degree + 1);
             double[] coefficients = new double[length];
-            for (int i = 0; i < rightHandSidePolynomial.coefficients.Length; i++)
+            for (int i = 0; i <= rightHandSidePolynomial.Degree; i++)
             {
-                coefficients[i] -= rightHandSidePolynomial.coefficients[i];
+                coefficients[i] -= rightHandSidePolynomial[i];
             }
 
-            for (int i = 0; i < leftHandSidePolynomial.coefficients.Length; i++)
+            for (int i = 0; i <= leftHandSidePolynomial.Degree; i++)
             {
-                coefficients[i] += leftHandSidePolynomial.coefficients[i];
+                coefficients[i] += leftHandSidePolynomial[i];
             }
 
             return new Polynomial(coefficients);
@@ -489,10 +519,10 @@ namespace Polynomial
                 return false;
             }
 
-            for (int i = 0; i < rightHandSidePolynomial.coefficients.Length; i++)
+            for (int i = 0; i <= rightHandSidePolynomial.Degree; i++)
             {
-                if (!(Math.Abs(leftHandSidePolynomial.coefficients[i]
-                    - rightHandSidePolynomial.coefficients[i]) < Accuracy))
+                if (!(Math.Abs(leftHandSidePolynomial[i]
+                    - rightHandSidePolynomial[i]) < Accuracy))
                 {
                     return false;
                 }
@@ -505,12 +535,37 @@ namespace Polynomial
         {
             ValidatePolynomial(polynomial);
             double[] coefficients = (double[])polynomial.coefficients.Clone();
-            for (int i = 0; i < polynomial.coefficients.Length; i++)
+            for (int i = 0; i <= polynomial.Degree; i++)
             {
                 coefficients[i] = value * coefficients[i];
             }
 
             return new Polynomial(coefficients);
+        }
+
+        private static double[] SetCoefficients(double[] inputCoefficients)
+        {
+            int indexToStart = 0;
+            for(int i = 0; i < inputCoefficients.Length; i++)
+            {
+                if (Math.Abs(inputCoefficients[i]) < Accuracy)
+                {
+                    indexToStart++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            var resultCoefficients = new double[inputCoefficients.Length - indexToStart];
+            if (inputCoefficients.Length - indexToStart == 0)
+            {
+                throw new ArgumentException($"There aren't valuable coefficients in given array: {nameof(inputCoefficients)}");
+            }
+
+            inputCoefficients.CopyTo(resultCoefficients, indexToStart);
+            return resultCoefficients;
         }
 
         #endregion

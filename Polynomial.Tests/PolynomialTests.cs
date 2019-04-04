@@ -47,8 +47,6 @@ namespace Polynomial.Tests
             {
                 yield return new TestCaseData(new double[] { -5, 10, 15.5, 303 }, new double[] { -5 })
                     .Returns("-10*x^3 + 10*x^2 + 15,5*x + 303");
-                yield return new TestCaseData(new double[] { 0.005, 0, 0, 0 }, new double[] { 0, 0 })
-                    .Returns("0,005*x^3");
                 yield return new TestCaseData(new double[] { 1 }, new double[] { 0.5, 5, 3 })
                    .Returns("1,5*x^2 + 5*x + 3");
                 yield return new TestCaseData(new double[] { 1, 2, 3, 4, 5 }, new double[] { 0.5, 1.2, 0 })
@@ -163,12 +161,10 @@ namespace Polynomial.Tests
             {
                 yield return new TestCaseData(new double[] { -5, 4, -1.5 }, new double[] { 9.54, 1, 1.5 })
                     .Returns("-14,54*x^2 + 3*x - 3");
-                yield return new TestCaseData(new double[] { 0, -1 }, new double[] { -0.5, -0.01, 0, 0.255, 30 })
-                    .Returns("0,5*x^4 - 0,99*x^3 - 0,255*x - 30");
                 yield return new TestCaseData(new double[] { -5 }, new double[] { 3, -2.5, 0.23 })
                    .Returns("-8*x^2 + 2,5*x - 0,23");
-                yield return new TestCaseData(new double[] { 15, 30, 0, 0 }, new double[] { 15, 30, 0 })
-                   .Returns(string.Empty);
+                yield return new TestCaseData(new double[] { -0.1, -1 }, new double[] { -0.5, -0.01, 0, 0.255, 30 })
+                   .Returns("0,4*x^4 - 0,99*x^3 - 0,255*x - 30");
             }
         }
 
@@ -340,7 +336,7 @@ namespace Polynomial.Tests
             {
                 yield return new TestCaseData(new double[] { -5, 10, 15.5, 303 }, new double[] { -5 })
                   .Returns(false);
-                yield return new TestCaseData(new double[] { 10, 10, 10 }, new double[] { 0, 0 })
+                yield return new TestCaseData(new double[] { 10, 10, 10 }, new double[] { 2, 0.5 })
                     .Returns(false);
                 yield return new TestCaseData(new double[] { 1.5, 2, 3 }, new double[] { 1.51, 2, 3 })
                    .Returns(false);
@@ -388,7 +384,7 @@ namespace Polynomial.Tests
             return firstPolynomial.Equals(secondPolynomial);
         }
 
-        [TestCase(new double[] { 0, 25 })]
+        [TestCase(new double[] { 0.25 })]
         [TestCase(new double[] { 0.021, 0.0522, 0.2 })]
         public void Equals_EqualReference_ReturnTrue(double[] coefficients)
         {
