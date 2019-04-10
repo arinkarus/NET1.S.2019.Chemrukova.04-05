@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Text;
-
 namespace Polynomial
 {
     /// <summary>
@@ -316,6 +315,20 @@ namespace Polynomial
             }
 
             return IsEqualPolynomials(this, other);
+        }
+
+        #endregion
+
+        #region Interfaces implementations
+
+        /// <summary>
+        /// Returns copy of polynomial.
+        /// </summary>
+        /// <returns>Copy of polynomial.</returns>
+        public object Clone()
+        {
+            double[] coeffiecientsForClonePolynomial = (double[])this.coefficients;
+            return new Polynomial(coeffiecientsForClonePolynomial);
         }
 
         #endregion
