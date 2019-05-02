@@ -333,20 +333,6 @@ namespace Polynomial
 
         #endregion
 
-        #region Interfaces implementations
-
-        /// <summary>
-        /// Returns copy of polynomial.
-        /// </summary>
-        /// <returns>Copy of polynomial.</returns>
-        public object Clone()
-        {
-            double[] coeffiecientsForClonePolynomial = (double[])this.coefficients;
-            return new Polynomial(coeffiecientsForClonePolynomial);
-        }
-
-        #endregion
-
         #region Object overrides 
 
         /// <summary>

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1442EBC5-FB22-4366-99F1-B04E2A8D4D1F}</ProjectGuid>
+    <ProjectGuid>{D919324E-EB72-4487-B361-AE84E79E0706}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DoubleExtensions</RootNamespace>
-    <AssemblyName>DoubleExtensions</AssemblyName>
+    <RootNamespace>DoubleFormatting</RootNamespace>
+    <AssemblyName>DoubleFormatting</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,20 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>App.config</DependentUpon>
-    </Compile>
-    <Compile Include="DoubleExtension.cs" />
+    <Compile Include="DoubleFormatProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transform.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>App.Designer.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\DoubleExtensions\DoubleExtensions.csproj">
+      <Project>{1442ebc5-fb22-4366-99f1-b04e2a8d4d1f}</Project>
+      <Name>DoubleExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

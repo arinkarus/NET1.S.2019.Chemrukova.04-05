@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polynomial", "Polynomial\Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polynomial.Tests", "Polynomial.Tests\Polynomial.Tests.csproj", "{9BD38D8B-7195-4FAE-832D-385FBCC9B047}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleFormatting", "DoubleFormatting\DoubleFormatting.csproj", "{D919324E-EB72-4487-B361-AE84E79E0706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleFormatting.Tests", "DoubleFormatting.Tests\DoubleFormatting.Tests.csproj", "{D4F8E410-B444-49E2-A8F7-F4B5D3F74808}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{9BD38D8B-7195-4FAE-832D-385FBCC9B047}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BD38D8B-7195-4FAE-832D-385FBCC9B047}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BD38D8B-7195-4FAE-832D-385FBCC9B047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D919324E-EB72-4487-B361-AE84E79E0706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D919324E-EB72-4487-B361-AE84E79E0706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D919324E-EB72-4487-B361-AE84E79E0706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D919324E-EB72-4487-B361-AE84E79E0706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F8E410-B444-49E2-A8F7-F4B5D3F74808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F8E410-B444-49E2-A8F7-F4B5D3F74808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F8E410-B444-49E2-A8F7-F4B5D3F74808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F8E410-B444-49E2-A8F7-F4B5D3F74808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
