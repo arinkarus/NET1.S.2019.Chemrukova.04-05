@@ -9,8 +9,8 @@
 ## Реализация (Done)
 1. - [Решение](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/DoubleExtensions/Transform.cs)
    - [Тесты](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/DoubleExtensions.Tests/TransformTests.cs)
-2-3. - [Решение](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/DoubleExtensions/DoubleExtension.cs)
-   - [Тесты](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/DoubleExtensions.Tests/DoubleExtensionTests.cs)
+(2+3). - [Решение](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/DoubleExtensions/DoubleExtension.cs)
+   - [Тесты](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/DoubleExtensions.Tests/DoubleExtensionTests.cs)   
 4. - [Решение](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/Polynomial/Polynomial.cs)
    - [Тесты](https://github.com/arinkarus/NET1.S.2019.Chemrukova.04-05/blob/master/Polynomial.Tests/PolynomialTests.cs)
    
